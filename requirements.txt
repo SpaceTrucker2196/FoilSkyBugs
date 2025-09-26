@@ -1,0 +1,19 @@
+# HTTP client for polling aircraft.json from dump1090
+requests>=2.26.0
+
+# OpenAI API client for the GPT-based enrichment pipeline
+openai>=1.0.0
+
+# Pydantic for robust data modeling of ADS-B and enriched flight records
+pydantic>=2.0.0
+
+# Optional: For enhanced terminal output (e.g., pretty-printing logs/dashboards)
+rich>=13.0.0
+
+# --- Development & Testing Dependencies ---
+
+# Testing framework for unit and integration tests
+pytest>=7.0.0
+
+# Mocking library for isolating tests from live services (dump1090, OpenAI API)
+pytest-mock>=3.0.0

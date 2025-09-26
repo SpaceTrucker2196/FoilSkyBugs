@@ -1,0 +1,34 @@
+[Unit]
+Description=FoilSkyBugs ADS-B Enrichment Service
+# This service will start after the network is available.
+# If you run dump1090 as a service, you should add it here, e.g., After=dump1090-fa.service
+After=network.target
+
+[Service]
+# --- User and Working Directory ---
+# It is recommended to run this service as a non-root user who has access to the project files.
+# Replace 'your_user' with the actual username (e.g., 'pi' or a dedicated user).
+User=your_user
+# The absolute path to the directory where you cloned the FoilSkyBugs repository.
+# Replace '/path/to/your/FoilSkyBugs' with the correct path.
+WorkingDirectory=/path/to/your/FoilSkyBugs
+
+# --- Execution ---
+# The command to execute the Python script. Ensure the path to python3 and the script are correct.
+ExecStart=/usr/bin/python3 /path/to/your/FoilSkyBugs/adsb_enrich.py
+
+# --- Environment ---
+# For security, the OpenAI API key should be managed outside of the script.
+# You can uncomment the following line and set your key directly,
+# or use a systemd environment file for better practice.
+# Environment="OPENAI_API_KEY=sk-yourkeyhere"
+
+# --- Restart Policy ---
+# Always restart the service if it crashes.
+Restart=always
+# Wait 10 seconds before attempting a restart.
+RestartSec=10
+
+[Install]
+# This target ensures the service is started at boot in a multi-user environment.
+WantedBy=multi-user.target
