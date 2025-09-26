@@ -1,0 +1,65 @@
+# FoilSkyBugs Configuration
+# Production-ready configuration with sensible defaults
+
+app:
+  name: "FoilSkyBugs"
+  version: "1.0.0"
+  environment: "development"
+
+# ADSB Data Sources
+data_sources:
+  rtl_sdr:
+    enabled: false
+    device_index: 0
+    frequency: 1090000000  # 1090 MHz
+    sample_rate: 2000000   # 2 MHz
+    gain: "auto"
+
+  network_feeds:
+    - name: "dump1090"
+      enabled: true
+      host: "localhost"
+      port: 30003
+      format: "beast"
+
+# Geographic Filtering
+geographic:
+  bounds:
+    north: 45.0
+    south: 40.0
+    east: -70.0
+    west: -80.0
+
+  center:
+    latitude: 42.5
+    longitude: -75.0
+
+  max_range: 250
+
+# Database Configuration
+database:
+  url: "sqlite:///foilskybugs.db"
+  
+  pool_size: 20
+  max_overflow: 30
+  pool_timeout: 30
+  pool_recycle: 3600
+
+  retention:
+    positions: 30
+    tracks: 90
+    statistics: 365
+
+# Web Interface
+web:
+  host: "0.0.0.0"
+  port: 8080
+  debug: false
+  secret_key: "foilskybugs-development-key-change-in-production"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "foilskybugs.log"
+  max_size: "10MB"
+  backup_count: 5

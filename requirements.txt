@@ -1,19 +1,43 @@
-# HTTP client for polling aircraft.json from dump1090
+# Core dependencies - installed by setup.py
+pyyaml>=6.0.1
 requests>=2.26.0
-
-# OpenAI API client for the GPT-based enrichment pipeline
-openai>=1.0.0
-
-# Pydantic for robust data modeling of ADS-B and enriched flight records
 pydantic>=2.0.0
+sqlalchemy>=2.0.0
+click>=8.1.0
+flask>=3.0.0
+flask-cors>=4.0.0
 
-# Optional: For enhanced terminal output (e.g., pretty-printing logs/dashboards)
+# Optional dependencies for enhanced functionality
+# Install with: pip install -r requirements.txt
+
+# HTTP client for polling aircraft.json from dump1090
+# requests>=2.26.0  # Already included above
+
+# OpenAI API client for the GPT-based enrichment pipeline (optional)
+# openai>=1.0.0
+
+# Rich for enhanced terminal output (optional)
 rich>=13.0.0
 
-# --- Development & Testing Dependencies ---
-
-# Testing framework for unit and integration tests
+# Development & Testing Dependencies
 pytest>=7.0.0
-
-# Mocking library for isolating tests from live services (dump1090, OpenAI API)
 pytest-mock>=3.0.0
+pytest-cov>=4.1.0
+
+# Code quality tools (optional)
+black>=23.12.0
+flake8>=6.1.0
+mypy>=1.8.0
+
+# Database support (choose based on your database)
+# PostgreSQL
+# psycopg2-binary>=2.9.5
+
+# Data analysis tools (optional)
+# numpy>=1.24.0
+# pandas>=2.1.0
+# geopy>=2.4.0
+# shapely>=2.0.0
+
+# RTL-SDR support (optional, for hardware dongles)
+# pyrtlsdr>=0.2.92

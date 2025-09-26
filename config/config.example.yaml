@@ -1,0 +1,135 @@
+# FoilSkyBugs Configuration Example
+# Copy this file to config.yaml and customize as needed
+
+app:
+  name: "FoilSkyBugs"
+  version: "1.0.0"
+  environment: "development"  # development, testing, production
+
+# ADSB Data Sources
+data_sources:
+  rtl_sdr:
+    enabled: false
+    device_index: 0
+    frequency: 1090000000  # 1090 MHz
+    sample_rate: 2000000   # 2 MHz
+    gain: "auto"           # or specific value like 49.6
+
+  network_feeds:
+    - name: "dump1090"
+      enabled: true
+      host: "localhost"
+      port: 30003
+      format: "beast"      # beast, avr, sbs1
+
+    - name: "external_feed"
+      enabled: false
+      host: "feed.example.com"
+      port: 30005
+      format: "beast"
+
+# Geographic Filtering
+geographic:
+  # Bounding box for data collection (decimal degrees)
+  bounds:
+    north: 45.0
+    south: 40.0
+    east: -70.0
+    west: -80.0
+
+  # Center point for range calculations
+  center:
+    latitude: 42.5
+    longitude: -75.0
+
+  # Maximum range in nautical miles
+  max_range: 250
+
+# Database Configuration
+database:
+  # Database URL - SQLite for development, PostgreSQL for production
+  url: "sqlite:///foilskybugs.db"
+  # url: "postgresql://foilskybugs:password@localhost/foilskybugs_db"
+  
+  # Connection pool settings (for PostgreSQL)
+  pool_size: 20
+  max_overflow: 30
+  pool_timeout: 30
+  pool_recycle: 3600
+
+  # Data retention (days)
+  retention:
+    positions: 30      # Aircraft position reports
+    tracks: 90         # Flight tracks
+    statistics: 365    # Aggregated statistics
+
+# Web Interface
+web:
+  host: "0.0.0.0"
+  port: 8080
+  debug: false
+  secret_key: "your-secret-key-here-change-in-production"
+
+  # Map configuration
+  map:
+    center_lat: 42.5
+    center_lon: -75.0
+    zoom: 8
+    tile_server: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
+# API Configuration
+api:
+  rate_limiting:
+    enabled: false
+    default_limit: "100/hour"
+    
+  authentication:
+    enabled: false  # Set to true in production
+    api_keys: []
+
+# Alert System
+alerts:
+  enabled: true
+  rules:
+    - name: "emergency_squawk"
+      condition: "squawk in ['7500', '7600', '7700']"
+      action: "log"
+      recipients: []
+
+    - name: "low_altitude"
+      condition: "altitude < 1000 and speed > 200"
+      action: "log"
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "foilskybugs.log"
+  max_size: "10MB"
+  backup_count: 5
+  
+  # Component-specific logging
+  components:
+    adsb_decoder: "DEBUG"
+    database: "INFO"
+    web_api: "INFO"
+
+# Performance Tuning
+performance:
+  # Processing batch sizes
+  batch_sizes:
+    message_processing: 100
+    database_insert: 500
+    
+  # Caching
+  cache:
+    enabled: false
+    backend: "memory"  # redis, memory
+    redis_url: "redis://localhost:6379/0"
+    default_timeout: 300
+
+# Development Settings
+development:
+  mock_data: true
+  auto_reload: true
+  debug_toolbar: false
+  profiling: false
